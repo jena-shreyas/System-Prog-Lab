@@ -1,0 +1,37 @@
+SHELL = /bin/sh
+CC = gcc
+CFLAGS = -g -Wall -I. -fPIC
+LIBNAME = libmyimpl.so
+OBJFILES = llist.o stack.o queue.o union_find.o
+INCLUDEDIR = /usr/include
+INCLUDESUBDIR = $(INCLUDEDIR)/data_struct
+LIBDIR = $(INCLUDEDIR)/lib
+RM = rm -f
+
+
+library : $(OBJFILES) heap.o
+	gcc -shared -o $(LIBNAME) $(OBJFILES) heap.o
+
+$(OBJFILES) : llist.h
+llist.o : 
+stack.o : stack.h
+queue.o : queue.h
+heap.o : heap.h
+union_find.o : union_find.h
+
+
+install : library
+	-mkdir $(INCLUDESUBDIR)
+	cp $(LIBNAME) $(LIBDIR)
+	cp llist.h stack.h queue.h heap.h union_find.h $(INCLUDESUBDIR)
+	cp data_struct.h $(INCLUDEDIR)
+	
+
+clean : 
+	$(RM) $(OBJFILES) heap.o
+
+	
+distclean : 	
+	$(RM) $(OBJFILES) heap.o $(LIBNAME)
+
+	

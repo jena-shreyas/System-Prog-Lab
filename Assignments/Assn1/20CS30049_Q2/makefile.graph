@@ -1,0 +1,27 @@
+SHELL = /bin/sh
+CC = gcc
+CFLAGS = -g -Wall -I.
+AR = ar
+LIBNAME = libgraph.a
+OBJFILE = graph.o
+INCLUDEDIR = /usr/include
+LIBDIR = $(INCLUDEDIR)/lib
+RM = rm -f
+
+
+library : $(OBJFILE)
+	$(AR) rcs $(LIBNAME) $(OBJFILE)
+
+$(OBJFILE) : graph.h
+
+install : library
+	-mkdir $(LIBDIR)
+	cp $(LIBNAME) $(LIBDIR)
+	cp graph.h $(INCLUDEDIR)	
+
+clean : 
+	$(RM) $(OBJFILE)
+	
+distclean : 	
+	$(RM) $(OBJFILE) $(LIBNAME)
+
